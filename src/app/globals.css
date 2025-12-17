@@ -1,24 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #704de4;
-  --primary-hover: #5c3dc7;
-  --secondary: #ffd014;
-  --background: #f6f6f6;
-  --foreground: #000000;
-  --text-gray: #656565;
+  --primary: #ff6b6b;
+  --primary-hover: #ee5a5a;
+  --primary-light: #fff0f0;
+  --secondary: #ffd43b;
+  --secondary-hover: #fab005;
+  --accent: #845ef7;
+  --accent-light: #f3f0ff;
+  --background: #ffffff;
+  --background-warm: #fffbf7;
+  --foreground: #1a1a1a;
+  --text-gray: #666666;
   --text-light: #999999;
   --white: #ffffff;
-  --border: #e5e5e5;
-  --error: #ff4444;
-  --success: #22c55e;
+  --border: #eee;
+  --error: #ff4757;
+  --success: #2ed573;
+  --gradient-warm: linear-gradient(135deg, #fff5f5 0%, #fff9e6 50%, #f0fff4 100%);
+  --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #ffa502 100%);
+  --gradient-fun: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
 }
 
 @theme inline {
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
   --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
   --color-background: var(--background);
+  --color-background-warm: var(--background-warm);
   --color-foreground: var(--foreground);
   --color-text-gray: var(--text-gray);
   --color-text-light: var(--text-light);
@@ -38,67 +50,325 @@ body {
   min-height: 100vh;
 }
 
+/* Animated gradient background */
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, #fff5f5, #fff9e6, #f0fff4, #f5f0ff);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Bounce animation */
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s ease-in-out infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.5); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.animate-sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+/* Primary button - more vibrant */
 .btn-primary {
-  background-color: var(--primary);
+  background: var(--gradient-primary);
   color: white;
-  height: 45px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color 0.2s;
+  height: 52px;
+  border-radius: 26px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border: none;
+  cursor: pointer;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-primary:disabled {
-  background-color: #ccc;
+  background: #ddd;
+  box-shadow: none;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* Secondary button */
 .btn-secondary {
-  background-color: var(--secondary);
-  color: #000;
-  height: 45px;
-  border-radius: 6px;
-  font-weight: 600;
+  background: var(--secondary);
+  color: #1a1a1a;
+  height: 52px;
+  border-radius: 26px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 212, 59, 0.3);
+  border: none;
+  cursor: pointer;
 }
 
+.btn-secondary:hover {
+  background: var(--secondary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 212, 59, 0.4);
+}
+
+/* Outline button */
+.btn-outline {
+  background: white;
+  color: var(--primary);
+  height: 52px;
+  border-radius: 26px;
+  font-weight: 600;
+  font-size: 16px;
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background: var(--primary-light);
+}
+
+/* Input field - softer */
 .input-field {
-  height: 45px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0 12px;
-  font-size: 14px;
+  height: 52px;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 0 16px;
+  font-size: 15px;
   width: 100%;
-  transition: border-color 0.2s;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
 }
 
+.input-field::placeholder {
+  color: var(--text-light);
+}
+
+/* Card - more depth and warmth */
 .card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Card with gradient border */
+.card-gradient {
+  background: white;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+/* Amount selection button */
+.amount-btn {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 8px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.amount-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.amount-btn.active {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-paid {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.badge-registered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-refunded {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+/* Hero section styles */
+.hero-gradient {
+  background: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+}
+
+/* Gift box decoration */
+.gift-decoration {
+  position: relative;
+}
+
+.gift-decoration::before {
+  content: '🎁';
+  position: absolute;
+  font-size: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Confetti effect */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: confetti-fall 3s linear infinite;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f8f8f8;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
+  background: linear-gradient(180deg, #ff6b6b, #ffa502);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: linear-gradient(180deg, #ee5a5a, #e69500);
+}
+
+/* Selection color */
+::selection {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Emoji bounce on hover */
+.emoji-bounce:hover {
+  display: inline-block;
+  animation: bounce-soft 0.5s ease;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Ribbon decoration */
+.ribbon {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+}
+
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 100px;
+  padding: 8px 0;
+  background: var(--gradient-primary);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  transform: rotate(45deg);
+  top: 18px;
+  right: -22px;
+  box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { MessageCircle, Send, User, Bot } from 'lucide-react';
+import { MessageCircle, Send, User, Bot, Headphones, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -136,56 +136,87 @@ export default function ContactPage() {
   // Start Form
   if (!conversationId) {
     return (
-      <div className="px-4 py-6">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <MessageCircle className="w-8 h-8 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold mb-2">문의하기</h1>
-          <p className="text-text-gray text-sm">
-            궁금한 점이 있으시면 문의해주세요
-          </p>
-        </div>
+      <div className="min-h-screen bg-gradient-animated relative overflow-hidden">
+        {/* Floating decorations */}
+        <div className="absolute top-16 left-6 text-3xl animate-float opacity-60" style={{ animationDelay: '0s' }}>💬</div>
+        <div className="absolute top-28 right-10 text-2xl animate-float opacity-60" style={{ animationDelay: '0.5s' }}>✨</div>
+        <div className="absolute top-44 left-12 text-xl animate-float opacity-60" style={{ animationDelay: '1s' }}>📞</div>
+        <div className="absolute top-36 right-20 text-2xl animate-float opacity-60" style={{ animationDelay: '1.5s' }}>🎧</div>
 
-        <form onSubmit={startConversation} className="space-y-4">
-          <div className="card p-4">
-            <h2 className="font-semibold mb-3">문의자 정보</h2>
-            <div className="space-y-3">
-              <input
-                type="text"
-                placeholder="이름 *"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="input-field"
-                required
-              />
-              <input
-                type="email"
-                placeholder="이메일 (선택)"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-                className="input-field"
-              />
+        <div className="px-4 py-8 max-w-lg mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Headphones className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] bg-clip-text text-transparent">
+              문의하기
+            </h1>
+            <p className="text-gray-500">
+              궁금한 점이 있으시면 문의해주세요 💬
+            </p>
+          </div>
+
+          <form onSubmit={startConversation} className="space-y-5">
+            <div className="card p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <User className="w-5 h-5 text-[#4da6ff]" />
+                <h2 className="font-bold text-lg">문의자 정보</h2>
+              </div>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="이름 *"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="input-field"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="이메일 (선택)"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || !userName.trim()}
+              className="btn-primary w-full flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                  <span>시작 중...</span>
+                </>
+              ) : (
+                <>
+                  <MessageCircle size={20} />
+                  <span>문의 시작하기</span>
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 card p-5">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center flex-shrink-0">
+                <Clock className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">운영 시간</h3>
+                <p className="text-sm text-gray-500">
+                  평일 09:00 - 18:00 (주말/공휴일 휴무)
+                </p>
+                <p className="text-sm text-gray-500 mt-1">
+                  문의하신 내용은 순차적으로 답변드립니다.
+                </p>
+              </div>
             </div>
           </div>
-
-          <button
-            type="submit"
-            disabled={loading || !userName.trim()}
-            className="btn-primary w-full"
-          >
-            {loading ? '시작 중...' : '문의 시작하기'}
-          </button>
-        </form>
-
-        <div className="mt-8 bg-gray-50 rounded-lg p-4">
-          <h3 className="font-semibold mb-2 text-sm">운영 시간</h3>
-          <p className="text-sm text-text-gray">
-            평일 09:00 - 18:00 (주말/공휴일 휴무)
-          </p>
-          <p className="text-sm text-text-gray mt-1">
-            문의하신 내용은 순차적으로 답변드립니다.
-          </p>
         </div>
       </div>
     );
@@ -193,25 +224,29 @@ export default function ContactPage() {
 
   // Chat Interface
   return (
-    <div className="flex flex-col h-[calc(100vh-56px-64px)] md:h-[calc(100vh-56px)]">
+    <div className="flex flex-col h-[calc(100vh-56px-64px)] md:h-[calc(100vh-56px)] bg-gradient-animated">
       {/* Header */}
-      <div className="bg-white border-b border-border px-4 py-3">
+      <div className="bg-white/90 backdrop-blur-md border-b border-gray-100 px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-            <Bot className="w-5 h-5 text-primary" />
+          <div className="w-12 h-12 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center shadow-md">
+            <Headphones className="w-6 h-6 text-white" />
           </div>
           <div>
-            <p className="font-semibold">스클코인 고객센터</p>
-            <p className="text-xs text-text-gray">평일 09:00 - 18:00</p>
+            <p className="font-bold">스클코인 고객센터</p>
+            <p className="text-xs text-gray-500 flex items-center gap-1">
+              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              평일 09:00 - 18:00
+            </p>
           </div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-text-gray text-sm">
+            <span className="text-4xl mb-2 block">💬</span>
+            <p className="text-gray-500 text-sm">
               문의 내용을 입력해주세요
             </p>
           </div>
@@ -225,17 +260,22 @@ export default function ContactPage() {
               key={message.id}
               className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`max-w-[80%] ${isUser ? 'order-2' : ''}`}>
+              {!isUser && (
+                <div className="w-8 h-8 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                  <Bot className="w-4 h-4 text-white" />
+                </div>
+              )}
+              <div className={`max-w-[75%]`}>
                 <div
-                  className={`rounded-2xl px-4 py-2 ${
+                  className={`rounded-2xl px-4 py-3 ${
                     isUser
-                      ? 'bg-primary text-white rounded-br-sm'
-                      : 'bg-white rounded-bl-sm'
+                      ? 'bg-gradient-to-r from-[#ff6b6b] to-[#ffa502] text-white rounded-br-sm shadow-md'
+                      : 'bg-white rounded-bl-sm shadow-md'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                 </div>
-                <p className={`text-xs text-text-light mt-1 ${isUser ? 'text-right' : ''}`}>
+                <p className={`text-xs text-gray-400 mt-1 ${isUser ? 'text-right' : ''}`}>
                   {formatTime(message.created_at)}
                 </p>
               </div>
@@ -246,7 +286,7 @@ export default function ContactPage() {
       </div>
 
       {/* Input */}
-      <form onSubmit={sendMessage} className="bg-white border-t border-border p-4">
+      <form onSubmit={sendMessage} className="bg-white/90 backdrop-blur-md border-t border-gray-100 p-4">
         <div className="flex gap-2">
           <input
             type="text"
@@ -258,7 +298,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={!newMessage.trim() || sending}
-            className="btn-primary px-4"
+            className="btn-primary px-4 flex items-center justify-center"
           >
             <Send size={18} />
           </button>
