@@ -23,7 +23,6 @@ export default function ContactPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check for saved conversation
     const savedConversationId = localStorage.getItem('conversationId');
     const savedUserName = localStorage.getItem('contactUserName');
     const savedUserEmail = localStorage.getItem('contactUserEmail');
@@ -99,7 +98,6 @@ export default function ContactPage() {
     const messageContent = newMessage;
     setNewMessage('');
 
-    // Optimistic update
     const optimisticMessage: Message = {
       id: `temp-${Date.now()}`,
       sender_type: 'user',
@@ -136,32 +134,21 @@ export default function ContactPage() {
   // Start Form
   if (!conversationId) {
     return (
-      <div className="min-h-screen bg-gradient-animated relative overflow-hidden">
-        {/* Floating decorations */}
-        <div className="absolute top-16 left-6 text-3xl animate-float opacity-60" style={{ animationDelay: '0s' }}>💬</div>
-        <div className="absolute top-28 right-10 text-2xl animate-float opacity-60" style={{ animationDelay: '0.5s' }}>✨</div>
-        <div className="absolute top-44 left-12 text-xl animate-float opacity-60" style={{ animationDelay: '1s' }}>📞</div>
-        <div className="absolute top-36 right-20 text-2xl animate-float opacity-60" style={{ animationDelay: '1.5s' }}>🎧</div>
-
-        <div className="px-4 py-8 max-w-lg mx-auto relative z-10">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Headphones className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] bg-clip-text text-transparent">
-              문의하기
-            </h1>
-            <p className="text-gray-500">
-              궁금한 점이 있으시면 문의해주세요 💬
-            </p>
+      <div className="min-h-screen bg-[#F8F9FA]">
+        {/* Header */}
+        <div className="bg-white border-b border-[#F0F0F0]">
+          <div className="max-w-lg mx-auto px-4 py-8 text-center">
+            <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2">문의하기</h1>
+            <p className="text-[#666] text-sm">궁금한 점이 있으시면 문의해주세요</p>
           </div>
+        </div>
 
-          <form onSubmit={startConversation} className="space-y-5">
+        <div className="px-4 py-6 max-w-lg mx-auto">
+          <form onSubmit={startConversation} className="space-y-4">
             <div className="card p-5">
               <div className="flex items-center gap-2 mb-4">
-                <User className="w-5 h-5 text-[#4da6ff]" />
-                <h2 className="font-bold text-lg">문의자 정보</h2>
+                <User className="w-5 h-5 text-[#FF4747]" />
+                <h2 className="font-bold text-base">문의자 정보</h2>
               </div>
               <div className="space-y-3">
                 <input
@@ -188,10 +175,7 @@ export default function ContactPage() {
               className="btn-primary w-full flex items-center justify-center gap-2"
             >
               {loading ? (
-                <>
-                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
-                  <span>시작 중...</span>
-                </>
+                <div className="spinner" />
               ) : (
                 <>
                   <MessageCircle size={20} />
@@ -201,19 +185,13 @@ export default function ContactPage() {
             </button>
           </form>
 
-          <div className="mt-8 card p-5">
+          <div className="mt-6 info-box">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center flex-shrink-0">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
+              <Clock className="w-5 h-5 text-[#FF4747] flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold mb-1">운영 시간</h3>
-                <p className="text-sm text-gray-500">
-                  평일 09:00 - 18:00 (주말/공휴일 휴무)
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  문의하신 내용은 순차적으로 답변드립니다.
-                </p>
+                <p className="text-sm text-[#666]">평일 09:00 - 18:00 (주말/공휴일 휴무)</p>
+                <p className="text-sm text-[#666] mt-1">문의하신 내용은 순차적으로 답변드립니다.</p>
               </div>
             </div>
           </div>
@@ -224,16 +202,16 @@ export default function ContactPage() {
 
   // Chat Interface
   return (
-    <div className="flex flex-col h-[calc(100vh-56px-64px)] md:h-[calc(100vh-56px)] bg-gradient-animated">
+    <div className="flex flex-col h-[calc(100vh-56px-64px)] md:h-[calc(100vh-56px)] bg-[#F8F9FA]">
       {/* Header */}
-      <div className="bg-white/90 backdrop-blur-md border-b border-gray-100 px-4 py-3">
+      <div className="bg-white border-b border-[#F0F0F0] px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 bg-[#FF4747] rounded-full flex items-center justify-center">
             <Headphones className="w-6 h-6 text-white" />
           </div>
           <div>
             <p className="font-bold">스클코인 고객센터</p>
-            <p className="text-xs text-gray-500 flex items-center gap-1">
+            <p className="text-xs text-[#666] flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
               평일 09:00 - 18:00
             </p>
@@ -245,10 +223,8 @@ export default function ContactPage() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center py-8">
-            <span className="text-4xl mb-2 block">💬</span>
-            <p className="text-gray-500 text-sm">
-              문의 내용을 입력해주세요
-            </p>
+            <MessageCircle className="w-12 h-12 text-[#ccc] mx-auto mb-4" />
+            <p className="text-[#666] text-sm">문의 내용을 입력해주세요</p>
           </div>
         )}
 
@@ -261,21 +237,21 @@ export default function ContactPage() {
               className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
             >
               {!isUser && (
-                <div className="w-8 h-8 bg-gradient-to-r from-[#4da6ff] to-[#0052cc] rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                <div className="w-8 h-8 bg-[#FF4747] rounded-full flex items-center justify-center mr-2 flex-shrink-0">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
-              <div className={`max-w-[75%]`}>
+              <div className="max-w-[75%]">
                 <div
                   className={`rounded-2xl px-4 py-3 ${
                     isUser
-                      ? 'bg-gradient-to-r from-[#ff6b6b] to-[#ffa502] text-white rounded-br-sm shadow-md'
-                      : 'bg-white rounded-bl-sm shadow-md'
+                      ? 'bg-[#FF4747] text-white rounded-br-sm'
+                      : 'bg-white rounded-bl-sm border border-[#F0F0F0]'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                 </div>
-                <p className={`text-xs text-gray-400 mt-1 ${isUser ? 'text-right' : ''}`}>
+                <p className={`text-xs text-[#999] mt-1 ${isUser ? 'text-right' : ''}`}>
                   {formatTime(message.created_at)}
                 </p>
               </div>
@@ -286,7 +262,7 @@ export default function ContactPage() {
       </div>
 
       {/* Input */}
-      <form onSubmit={sendMessage} className="bg-white/90 backdrop-blur-md border-t border-gray-100 p-4">
+      <form onSubmit={sendMessage} className="bg-white border-t border-[#F0F0F0] p-4">
         <div className="flex gap-2">
           <input
             type="text"
